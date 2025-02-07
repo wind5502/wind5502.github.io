@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Joke Website</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        .content {
+            margin: 50px auto;
+            max-width: 600px;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h1>Welcome to My Joke Site!</h1>
+        <p>Here's a funny joke for you...</p>
+        <img src="images/funny-image.jpg" alt="Funny Image">
+        <audio id="audioPlayer" controls autoplay loop>
+            <source src="audio/song.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+    <script>
+        // 尝试自动播放音乐
+        document.addEventListener('DOMContentLoaded', function() {
+            var audio = document.getElementById('audioPlayer');
+            audio.play().catch(function(error) {
+                // 自动播放被阻止，显示提示
+                alert('Click anywhere to start the music!');
+                document.body.addEventListener('click', function() {
+                    audio.play();
+                }, { once: true });
+            });
+        });
+    </script>
+</body>
+</html>
