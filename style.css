@@ -130,6 +130,9 @@ body {
     opacity: 1;
     transform: translateY(0);
 }
+#audioplayer{
+    display：none；
+}
 @media (max-width: 768px) {
        .notification {
            font-size: 1.5em;
