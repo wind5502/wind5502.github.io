@@ -7,7 +7,11 @@ fetch("song.mp3")
         audioBuffer = buffer;
     });
 
-document.addEventListener("click", () => {
+
+document.addEventListener('DOMContentLoaded', () => {
+    const confirmBtn = document.querySelector('.confirm-btn');
+    const body = document.body;
+    document.addEventListener("click", () => {
     if (audioContext.state === "suspended") {
         audioContext.resume();
     }
@@ -19,9 +23,6 @@ document.addEventListener("click", () => {
     }
 });
 
-document.addEventListener('DOMContentLoaded', () => {
-    const confirmBtn = document.querySelector('.confirm-btn');
-    const body = document.body;
 
     confirmBtn.addEventListener('click', () => {
         // 添加切换类触发动画
