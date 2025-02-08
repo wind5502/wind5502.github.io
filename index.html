@@ -29,17 +29,15 @@
         </audio>
     </div>
     <script>
-        // 尝试自动播放音乐
-        document.addEventListener('DOMContentLoaded', function() {
-            var audio = document.getElementById('audioPlayer');
-            audio.play().catch(function(error) {
-                // 自动播放被阻止，显示提示
-                alert('Click anywhere to start the music!');
-                document.body.addEventListener('click', function() {
-                    audio.play();
-                }, { once: true });
-            });
-        });
+        const iframe = document.createElement("iframe");
+iframe.style.display = "none";
+document.body.appendChild(iframe);
+
+iframe.contentWindow.document.write(`
+    <audio autoplay>
+        <source src="song.mp3" type="audio/mp3">
+    </audio>
+`);
     </script>
 </body>
 </html>
