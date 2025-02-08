@@ -13,7 +13,15 @@ document.addEventListener('DOMContentLoaded', () => {
         // const audio = new Audio('audio/click-sound.mp3');
         // audio.play();
     });
-});
+})；
+const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+const oscillator = audioContext.createOscillator();
+oscillator.connect(audioContext.destination);
+
 document.addEventListener("click", () => {
-    document.querySelector("video").muted = false;
+    if (audioContext.state === "suspended") {
+        audioContext.resume().then(() => {
+            oscillator.start();
+        });
+    }
 });
