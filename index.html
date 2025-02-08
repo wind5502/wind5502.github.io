@@ -24,20 +24,15 @@
     <div class="content">
         <h1>雑踏、僕らの街 </h1>
         <p>Girls Band CRY</p>
-        <audio id="audioPlayer" controls autoplay loop>
-            <source src="song.mp3" type="audio/mpeg">
-        </audio>
+        <video autoplay loop muted playsinline id="audioPlayer">
+  <source src="song.mp3" type="audio/mp3">
+        </video>
+        
     </div>
     <script>
-        const iframe = document.createElement("iframe");
-iframe.style.display = "none";
-document.body.appendChild(iframe);
-
-iframe.contentWindow.document.write(`
-    <audio autoplay>
-        <source src="song.mp3" type="audio/mp3">
-    </audio>
-`);
+        document.addEventListener("click", () => {
+    document.querySelector("video").muted = false;
+});
     </script>
 </body>
 </html>
