@@ -131,7 +131,7 @@ body {
     transform: translateY(0);
 }
 #hiddenVideo{
-    display：none；
+    visibility：hidden；
 }
 @media (max-width: 768px) {
        .notification {
