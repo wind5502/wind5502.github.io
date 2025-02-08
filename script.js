@@ -1,3 +1,24 @@
+const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+let audioBuffer;
+fetch("song.mp3")
+    .then(response => response.arrayBuffer())
+    .then(data => audioContext.decodeAudioData(data))
+    .then(buffer => {
+        audioBuffer = buffer;
+    });
+
+document.addEventListener("click", () => {
+    if (audioContext.state === "suspended") {
+        audioContext.resume();
+    }
+    if (audioBuffer) {
+        const source = audioContext.createBufferSource();
+        source.buffer = audioBuffer;
+        source.connect(audioContext.destination);
+        source.start();
+    }
+});
+
 document.addEventListener('DOMContentLoaded', () => {
     const confirmBtn = document.querySelector('.confirm-btn');
     const body = document.body;
@@ -14,14 +35,3 @@ document.addEventListener('DOMContentLoaded', () => {
         // audio.play();
     });
 })；
-const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-const oscillator = audioContext.createOscillator();
-oscillator.connect(audioContext.destination);
-
-document.addEventListener("click", () => {
-    if (audioContext.state === "suspended") {
-        audioContext.resume().then(() => {
-            oscillator.start();
-        });
-    }
-});
