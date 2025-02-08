@@ -1,38 +1,38 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-    <title>开学详细</title>
-    <style>
-        body {
-            text-align: center;
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            background-image:url(album.jpg);
-            background-size：cover;
-        }
-        .content {
-            margin: 50px auto;
-            max-width: 600px;
-        }
-        img {
-            max-width: 100%;
-            height: auto;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>通知</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="content">
-        <h1>雑踏、僕らの街 </h1>
-        <p>Girls Band CRY</p>
-        <video autoplay loop muted playsinline id="audioPlayer">
-  <source src="song.mp3" type="audio/mp3">
-        </video>
-        
+    <!-- 初始背景 -->
+    <div class="background background-a"></div>
+    
+    <!-- 点击前的界面 -->
+    <div class="initial-content">
+        <div class="notification">点击确定查看开学通知及注意事项</div>
+        <button class="confirm-btn">確 定</button>
     </div>
-    <script>
-        document.addEventListener("click", () => {
-    document.querySelector("video").muted = false;
-});
-    </script>
+
+    <!-- 点击后的界面 -->
+    <div class="content-after">
+        <!-- 新背景 -->
+        <div class="background background-b"></div>
+        
+        <!-- 专辑信息 -->
+        <div class="album-info">
+            <img src="images/album.jpg" class="album-cover">
+            <div class="album-details">
+                <h1>雑踏、僕らの街</h1>
+                <h2>TOGENASHI TOGEARI</h2>
+            </div>
+        </div>
+    </div>
+    <audio id="audioPlayer" controls autoplay loop>
+            <source src="song.mp3" type="audio/mpeg">
+    </audio>
+    <script src="script.js"></script>
 </body>
 </html>
