@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>随机数字生成器</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(to bottom, #1a2e2e, #0f1a1a);
+            font-family: 'Arial', sans-serif;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .container {
+            text-align: center;
+            position: relative;
+        }
+        #result {
+            font-size: 80px;
+            color: #3388BB;
+            opacity: 0;
+            text-shadow: 0 0 15px #3388BB, 0 0 30px #3388BB;
+            transition: opacity 0.8s ease, transform 0.5s ease;
+            transform: scale(0.5) rotate(-10deg);
+        }
+        #result.show {
+            opacity: 1;
+            transform: scale(1) rotate(0deg);
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            background-color: #3388BB;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        button:hover {
+            background-color: #2a6f99;
+            transform: scale(1.05);
+        }
+        #history {
+            margin-top: 20px;
+            max-height: 150px;
+            overflow-y: auto;
+            font-size: 16px;
+            color: #ccc;
+            text-align: left;
+            width: 200px;
+            padding: 10px;
+            background-color: rgba(51, 136, 187, 0.1);
+            border: 1px solid #3388BB;
+            border-radius: 5px;
+        }
+        #history p {
+            margin: 5px 0;
+        }
+        /* 北极星/罗盘流星 */
+        .star {
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="#3388BB" stroke-width="6"/><path d="M50 10 L50 35 M50 65 L50 90 M30 50 L10 50 M70 50 L90 50" stroke="#3388BB" stroke-width="6"/><path d="M50 10 L60 30" stroke="#3388BB" stroke-width="6"/></svg>') no-repeat center;
+            background-size: contain;
+            animation: starFall 0.7s linear forwards;
+            box-shadow: 0 0 12px #3388BB;
+        }
+        @keyframes starFall {
+            0% { transform: translateX(-100vw) translateY(-100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateX(100vw) translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+        /* 北极星/罗盘光效 */
+        .glow {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="rgba(51, 136, 187, 0.2)" stroke="#3388BB" stroke-width="6"/><path d="M50 10 L50 35 M50 65 L50 90 M30 50 L10 50 M70 50 L90 50" stroke="#3388BB" stroke-width="6"/><path d="M50 10 L60 30" stroke="#3388BB" stroke-width="6"/></svg>') no-repeat center;
+            background-size: contain;
+            opacity: 0;
+            animation: glowPulse 2.5s ease-in-out forwards;
+        }
+        @keyframes glowPulse {
+            0% { opacity: 0; transform: scale(0) rotate(0deg); }
+            40% { opacity: 1; transform: scale(1.2) rotate(10deg); }
+            100% { opacity: 0; transform: scale(1.5) rotate(20deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="result">00</div>
+        <button onclick="generateNumber()">点击抽取</button>
+        <div id="history">
+            <p>历史记录：</p>
+        </div>
+    </div>
+
+    <script>
+        let usedNumbers = new Set();
+
+        function getUniqueRandomNumber() {
+            if (usedNumbers.size >= 47) {
+                alert("所有1-47的数字已使用完毕，将重置！");
+                usedNumbers.clear();
+            }
+            let randomNum;
+            do {
+                randomNum = Math.floor(Math.random() * 47) + 1;
+            } while (usedNumbers.has(randomNum));
+            usedNumbers.add(randomNum);
+            return randomNum;
+        }
+
+        function createStar() {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            star.style.left = `${Math.random() * 100}vw`;
+            star.style.top = `${Math.random() * 100}vh`;
+            document.body.appendChild(star);
+            setTimeout(() => star.remove(), 700);
+        }
+
+        function createGlow() {
+            const glow = document.createElement('div');
+            glow.classList.add('glow');
+            glow.style.left = '50%';
+            glow.style.top = '50%';
+            glow.style.transform = 'translate(-50%, -50%)';
+            document.body.appendChild(glow);
+            setTimeout(() => glow.remove(), 2500);
+        }
+
+        function generateNumber() {
+            const result = document.getElementById('result');
+            result.classList.remove('show');
+
+            for (let i = 0; i < 15; i++) {
+                setTimeout(createStar, i * 80); // 加快节奏，增加紧张感
+            }
+
+            setTimeout(createGlow, 600);
+
+            let rollCount = 0;
+            const maxRolls = 25;
+            const rollInterval = setInterval(() => {
+                const tempNum = Math.floor(Math.random() * 47) + 1;
+                result.textContent = tempNum < 10 ? `0${tempNum}` : tempNum;
+
+                rollCount++;
+                if (rollCount >= maxRolls) {
+                    clearInterval(rollInterval);
+
+                    const finalNum = getUniqueRandomNumber();
+                    const paddedNum = finalNum < 10 ? `0${finalNum}` : finalNum;
+                    setTimeout(() => {
+                        result.textContent = paddedNum;
+                        result.classList.add('show');
+                        updateHistory(paddedNum);
+                    }, 1200); // 延迟揭示，增强仪式感
+                }
+            }, 80); // 加快数字切换速度
+        }
+
+        function updateHistory(newNumber) {
+            const historyDiv = document.getElementById('history');
+            historyDiv.innerHTML = '<p>历史记录：</p>';
+            const historyList = Array.from(usedNumbers).map(num => num < 10 ? `0${num}` : num);
+            historyList.sort((a, b) => a - b);
+            historyList.slice(-5).forEach(num => {
+                historyDiv.innerHTML += `<p>${num}</p>`;
+            });
+        }
+    </script>
+</body>
+</html>
